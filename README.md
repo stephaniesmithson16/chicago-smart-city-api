@@ -1,6 +1,8 @@
 # chicago-smart-city-api
 
-FastAPI civic-tech platform built on Chicago open data sources.
+A modern FastAPI platform built on Chicago public datasets including CTA transit, restaurant inspections, and neighborhood analytics.
+
+## Tech Stack
 
 ## Requirements
 
@@ -43,3 +45,10 @@ app/
   services/   Business logic and external data clients
 tests/        Automated tests
 ```
+
+## Roadmap
+
+- CTA live arrivals
+- Restaurant safety search
+- Neighborhood metrics
+- CI/CD deployment
