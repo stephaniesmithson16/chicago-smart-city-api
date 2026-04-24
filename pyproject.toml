@@ -1,0 +1,33 @@
+[project]
+name = "chicago-smart-city-api"
+version = "0.1.0"
+description = "FastAPI civic-tech platform using Chicago public datasets"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.136.1",
+    "pandas>=3.0.2",
+    "requests>=2.33.1",
+    "uvicorn[standard]>=0.46.0",
+]
+
+[project.scripts]
+chicago-smart-city-api = "main:main"
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=8.3.5,<9",
+    "ruff>=0.14.8",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
