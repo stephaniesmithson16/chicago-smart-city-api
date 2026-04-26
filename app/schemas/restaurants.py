@@ -7,3 +7,4 @@ class InspectionResult(BaseModel):
     risk: str
     results: str
     inspection_date: str
+    violations: str | None = None
