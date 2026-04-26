@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.api.routes import cta, health
+from app.api.routes import cta, health, restaurants
 from app.core.config import settings
 
 app = FastAPI(
@@ -10,6 +10,7 @@ app = FastAPI(
 
 app.include_router(health.router, prefix=settings.api_prefix)
 app.include_router(cta.router, prefix=settings.api_prefix)
+app.include_router(restaurants.router, prefix=settings.api_prefix)
 
 
 @app.get("/")
