@@ -1,16 +1,17 @@
 from fastapi import FastAPI
 
-from app.routes import health
+from app.api.routes import cta, health
+from app.core.config import settings
+
+app = FastAPI(
+    title=settings.api_name,
+    version=settings.api_version,
+)
+
+app.include_router(health.router, prefix=settings.api_prefix)
+app.include_router(cta.router, prefix=settings.api_prefix)
 
 
-def create_app() -> FastAPI:
-    app = FastAPI(
-        title="Chicago Smart City API",
-        summary="Civic-tech API built on Chicago open data sources.",
-        version="0.1.0",
-    )
-    app.include_router(health.router, prefix="/api/v1")
-    return app
-
-
-app = create_app()
+@app.get("/")
+def root() -> dict[str, str]:
+    return {"message": f"{settings.api_name} is running"}

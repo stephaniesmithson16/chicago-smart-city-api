@@ -1,18 +1,10 @@
-from functools import lru_cache
-from os import getenv
-
 from pydantic import BaseModel
 
 
 class Settings(BaseModel):
-    app_name: str = "Chicago Smart City API"
-    environment: str = "local"
-    debug: bool = False
+    api_name: str = "Chicago Smart City API"
+    api_version: str = "0.1.0"
+    api_prefix: str = "/api/v1"
 
 
-@lru_cache
-def get_settings() -> Settings:
-    return Settings(
-        environment=getenv("ENVIRONMENT", "local"),
-        debug=getenv("DEBUG", "false").lower() == "true",
-    )
+settings = Settings()
