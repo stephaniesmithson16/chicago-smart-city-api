@@ -2,7 +2,10 @@ from fastapi import APIRouter, Query
 
 from app.mappers.restaurants import map_inspection_row
 from app.schemas.restaurants import InspectionResult
-from app.services.restaurant_data import get_high_risk_restaurants, search_inspections
+from app.services.restaurant_data import (
+    get_high_risk_restaurants,
+    search_inspections,
+)
 
 router = APIRouter(prefix="/restaurants", tags=["Restaurants"])
 
@@ -22,7 +25,9 @@ def recent_failures(limit: int = 25):
 @router.get("/search", response_model=list[InspectionResult])
 def search(
     zip: str | None = None,
-    result: str | None = Query(default=None, examples=["Fail", "Pass", "Pass w/ Conditions"]),
+    result: str | None = Query(
+        default=None, examples=["Fail", "Pass", "Pass w/ Conditions"]
+    ),
     risk: str | None = None,
     limit: int = 25,
 ):
