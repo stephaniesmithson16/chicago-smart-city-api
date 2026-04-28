@@ -3,7 +3,7 @@ from app.schemas.restaurants import InspectionResult
 
 def map_inspection_row(row: dict) -> InspectionResult:
     return InspectionResult(
-        name=row.get("dba", "Unknown"),
+        name=row.get("dba_name", "Unknown"),
         address=row.get("address", "Unknown"),
         zip=row.get("zip", "Unknown"),
         risk=row.get("risk", "Unknown"),

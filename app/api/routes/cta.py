@@ -1,29 +1,25 @@
 from fastapi import APIRouter
 
-from app.schemas.cta import CTAStation
+from app.mappers.cta import map_cta_stations, map_train_arrival
+from app.schemas.cta import CTAStation, TrainArrival
+from app.services.cta_data import get_cta_stations, get_train_arrivals
 
 router = APIRouter(prefix="/cta", tags=["CTA"])
 
 
 @router.get(path="/stations", response_model=list[CTAStation], summary="Get CTA Stations")
-def get_cta_stations() -> list[CTAStation]:
-    return [
-        CTAStation(
-            station_id=1,
-            name="Logan Square",
-            line="Blue",
-            neighborhood="Logan Square",
-        ),
-        CTAStation(
-            station_id=2,
-            name="Southport",
-            line="Brown",
-            neighborhood="Lakeview",
-        ),
-        CTAStation(
-            station_id=3,
-            name="Chicago",
-            line="Red",
-            neighborhood="River North",
-        ),
-    ]
+def get_stations() -> list[CTAStation]:
+    rows = get_cta_stations()
+
+    return [map_cta_stations(row) for row in rows]
+
+
+@router.get(
+    path="/train-arrivals",
+    response_model=list[TrainArrival],
+    summary="Get Train Arrivals",
+)
+def train_arrivals(map_id: str, limit: int = 25) -> list[TrainArrival]:
+    rows = get_train_arrivals(map_id=map_id, limit=limit)
+
+    return [map_train_arrival(row) for row in rows]

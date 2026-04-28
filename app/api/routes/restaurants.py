@@ -2,7 +2,7 @@ from fastapi import APIRouter, Query
 
 from app.mappers.restaurants import map_inspection_row
 from app.schemas.restaurants import InspectionResult
-from app.services.chicago_data import get_high_risk_restaurants, search_inspections
+from app.services.restaurant_data import get_high_risk_restaurants, search_inspections
 
 router = APIRouter(prefix="/restaurants", tags=["Restaurants"])
 
