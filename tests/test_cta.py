@@ -5,8 +5,8 @@ from app.main import app
 client = TestClient(app)
 
 
-def test_health_check() -> None:
-    response = client.get("/api/v1/health")
+def test_cta_stations_returns_list():
+    response = client.get("/api/v1/cta/stations")
 
     assert response.status_code == 200
-    assert response.json() == {"status": "healthy"}
+    assert isinstance(response.json(), list)
