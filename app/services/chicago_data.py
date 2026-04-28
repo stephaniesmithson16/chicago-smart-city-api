@@ -1,6 +1,8 @@
 import httpx
 
-URL = "https://data.cityofchicago.org/resource/4ijn-s7e5.json"
+from app.core.config import settings
+
+FOOD_INSPECTIONS_URL = settings.food_inspections_url
 
 
 def get_high_risk_restaurants(limit: int = 10) -> list[dict]:
@@ -10,7 +12,7 @@ def get_high_risk_restaurants(limit: int = 10) -> list[dict]:
         "$order": "inspection_date DESC",
     }
 
-    response = httpx.get(URL, params=params, timeout=10.0)
+    response = httpx.get(FOOD_INSPECTIONS_URL, params=params, timeout=10.0)
     response.raise_for_status()
 
     return response.json()
@@ -41,7 +43,7 @@ def search_inspections(
     if filters:
         params["$where"] = " AND ".join(filters)
 
-    response = httpx.get(URL, params=params, timeout=10.0)
+    response = httpx.get(FOOD_INSPECTIONS_URL, params=params, timeout=10.0)
     response.raise_for_status()
 
     return response.json()
