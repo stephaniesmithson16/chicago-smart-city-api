@@ -5,7 +5,8 @@ class CTAStation(BaseModel):
     name: str
     descriptive_name: str
     ada: bool
-    line: str | list[str]
+    line: list[str]
+    map_id: str
     latitude: float
     longitude: float
 

@@ -14,8 +14,13 @@ router = APIRouter(prefix="/cta", tags=["CTA"])
 )
 def cta_stations() -> list[CTAStation]:
     rows = get_cta_stations()
+    stations_by_map_id: dict[str, CTAStation] = {}
 
-    return [map_cta_stations(row) for row in rows]
+    for row in rows:
+        station = map_cta_stations(row)
+        stations_by_map_id[station.map_id] = station
+
+    return list(stations_by_map_id.values())
 
 
 @router.get(

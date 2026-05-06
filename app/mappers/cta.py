@@ -28,6 +28,7 @@ def map_cta_stations(data: dict) -> CTAStation:
         descriptive_name=data.get("station_descriptive_name", "Unknown"),
         ada=data.get("ada", False),
         line=parse_station_lines(data),
+        map_id=data.get("map_id", "Unknown"),
         latitude=coordinates[0],
         longitude=coordinates[1],
     )
