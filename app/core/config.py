@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     cta_stations_url: str = (
         "https://data.cityofchicago.org/resource/8mj8-j3c4.json"
     )
+    database_url: str | None = None
 
     model_config = SettingsConfigDict(
         env_file=".env", env_file_encoding="utf-8"
