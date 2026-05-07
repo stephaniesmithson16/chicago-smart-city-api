@@ -1,7 +1,10 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Depends, Query
+from sqlalchemy.orm import Session
 
+from app.db.deps import get_db
 from app.mappers.restaurants import map_inspection_row
 from app.schemas.restaurants import InspectionResult
+from app.services.ingestion import ingest_restaurant_inspections
 from app.services.restaurant_data import (
     get_high_risk_restaurants,
     search_inspections,
@@ -33,3 +36,12 @@ def search(
 ):
     rows = search_inspections(zip=zip, result=result, risk=risk, limit=limit)
     return [map_inspection_row(row) for row in rows]
+
+
+@router.post("/ingest", summary="Ingest restaurant inspection data")
+def ingest_inspections(
+    limit: int = Query(default=100, ge=1, le=1000),
+    db: Session = Depends(get_db),
+) -> dict[str, int]:
+    inserted = ingest_restaurant_inspections(db=db, limit=limit)
+    return {"rows_inserted": inserted}

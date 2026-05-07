@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import RedirectResponse
 
 from app.api.routes import cta, health, restaurants
 from app.core.config import settings
@@ -14,5 +15,5 @@ app.include_router(restaurants.router, prefix=settings.app_prefix)
 
 
 @app.get("/")
-def root() -> dict[str, str]:
-    return {"message": f"{settings.app_name} is running"}
+def root() -> RedirectResponse:
+    return RedirectResponse(url="/docs")
