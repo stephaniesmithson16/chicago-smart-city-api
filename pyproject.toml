@@ -32,8 +32,8 @@ testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 80
-ignore = ["B008"] # Ignore "Do not perform function calls in argument defaults" to allow for dynamic default values in FastAPI routes
 target-version = "py311"
 
 [tool.ruff.lint]
+ignore = ["B008"] # Ignore "Do not perform function calls in argument defaults" to allow for dynamic default values in FastAPI routes
 select = ["E", "F", "I", "UP", "B"]

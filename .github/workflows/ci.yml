@@ -23,4 +23,6 @@ jobs:
         run: uv sync --dev
 
       - name: Run tests
+        env:
+          DATABASE_URL: sqlite+pysqlite:///./test.db
         run: uv run pytest
