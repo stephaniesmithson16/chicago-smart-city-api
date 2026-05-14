@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, Text
+from sqlalchemy import Integer, String, Text
+from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base
 
@@ -6,18 +7,20 @@ from app.db.base import Base
 class RestaurantInspection(Base):
     __tablename__ = "restaurant_inspections"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
 
-    inspection_id = Column(Integer, nullable=False, unique=True)
+    inspection_id: Mapped[int] = mapped_column(
+        Integer, nullable=False, unique=True
+    )
 
-    name = Column(String, index=True, nullable=False)
-    aka_name = Column(String, nullable=True)
-    license = Column(String, nullable=True)
-    facility_type = Column(String, nullable=True)
-    address = Column(String, nullable=True)
-    zip_code = Column(String, nullable=True)
-    risk = Column(String, nullable=True)
-    results = Column(String, nullable=True)
-    inspection_date = Column(String, nullable=True)
-    inspection_type = Column(String, nullable=True)
-    violations = Column(Text, nullable=True)
+    name: Mapped[str] = mapped_column(String, index=True, nullable=False)
+    aka_name: Mapped[str | None] = mapped_column(String, nullable=True)
+    license: Mapped[str | None] = mapped_column(String, nullable=True)
+    facility_type: Mapped[str | None] = mapped_column(String, nullable=True)
+    address: Mapped[str | None] = mapped_column(String, nullable=True)
+    zip_code: Mapped[str | None] = mapped_column(String, nullable=True)
+    risk: Mapped[str | None] = mapped_column(String, nullable=True)
+    results: Mapped[str | None] = mapped_column(String, nullable=True)
+    inspection_date: Mapped[str | None] = mapped_column(String, nullable=True)
+    inspection_type: Mapped[str | None] = mapped_column(String, nullable=True)
+    violations: Mapped[str | None] = mapped_column(Text, nullable=True)

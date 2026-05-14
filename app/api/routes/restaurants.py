@@ -2,13 +2,14 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
 from app.db.deps import get_db
-from app.mappers.restaurants import map_inspection_row
+from app.mappers.restaurants import map_inspection_model, map_inspection_row
 from app.schemas.restaurants import InspectionResult
-from app.services.ingestion import ingest_restaurant_inspections
-from app.services.restaurant_data import (
+from app.services.restaurants.chicago_client import (
     get_high_risk_restaurants,
     search_inspections,
 )
+from app.services.restaurants.ingestion import ingest_restaurant_inspections
+from app.services.restaurants.queries import search_db_inspections
 
 router = APIRouter(prefix="/restaurants", tags=["Restaurants"])
 
@@ -36,6 +37,22 @@ def search(
 ):
     rows = search_inspections(zip=zip, result=result, risk=risk, limit=limit)
     return [map_inspection_row(row) for row in rows]
+
+
+@router.get("/search_db", response_model=list[InspectionResult])
+def search_db(
+    zip: str | None = None,
+    result: str | None = Query(
+        default=None, examples=["Fail", "Pass", "Pass w/ Conditions"]
+    ),
+    risk: str | None = None,
+    db: Session = Depends(get_db),
+    limit: int = 25,
+):
+    rows = search_db_inspections(
+        db=db, zip=zip, result=result, risk=risk, limit=limit
+    )
+    return [map_inspection_model(row) for row in rows]
 
 
 @router.post("/ingest", summary="Ingest restaurant inspection data")
