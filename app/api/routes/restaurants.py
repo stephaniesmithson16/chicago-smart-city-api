@@ -4,12 +4,12 @@ from sqlalchemy.orm import Session
 from app.db.deps import get_db
 from app.mappers.restaurants import map_inspection_model, map_inspection_row
 from app.schemas.restaurants import InspectionResult
-from app.services.ingestion import ingest_restaurant_inspections
-from app.services.restaurant_data import (
+from app.services.restaurants.chicago_client import (
     get_high_risk_restaurants,
-    search_db_inspections,
     search_inspections,
 )
+from app.services.restaurants.ingestion import ingest_restaurant_inspections
+from app.services.restaurants.queries import search_db_inspections
 
 router = APIRouter(prefix="/restaurants", tags=["Restaurants"])
 

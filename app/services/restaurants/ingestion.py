@@ -2,7 +2,7 @@ from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.orm import Session
 
 from app.db.models.restaurant import RestaurantInspection
-from app.services.restaurant_data import search_inspections
+from app.services.restaurants.chicago_client import search_inspections
 
 
 def ingest_restaurant_inspections(db: Session, limit: int = 100) -> int:
