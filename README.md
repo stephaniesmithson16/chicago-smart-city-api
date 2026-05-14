@@ -38,17 +38,21 @@ uv run ruff check .
 
 ```text
 app/
-  core/       Application configuration
-  models/     Domain and persistence models
-  routes/     API route modules
-  schemas/    Request and response schemas
-  services/   Business logic and external data clients
-tests/        Automated tests
+  api/
+    routes/         API route modules
+  core/             Application configuration
+  db/               Database setup and session management
+    models/         Domain and persistence models
+  mappers/          Parsing functionality between models
+  schemas/          Request and response schemas
+  services/         Business logic and external data clients
+    cta/            CTA data requests
+    restaurants/    Restaurant api requests, ingestion, and queries
+tests/              Automated tests
 ```
 
 ## Roadmap
 
 - CTA live arrivals
 - Restaurant safety search
-- Neighborhood metrics
 - CI/CD deployment
