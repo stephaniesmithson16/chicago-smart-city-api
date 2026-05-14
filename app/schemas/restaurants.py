@@ -4,13 +4,13 @@ from pydantic import BaseModel
 class InspectionResult(BaseModel):
     inspection_id: int
     name: str
-    aka_name: str
-    license: str
-    facility_type: str
-    address: str
-    zip: str
-    risk: str
-    results: str
-    inspection_date: str
-    inspection_type: str
+    aka_name: str | None = None
+    license: str | None = None
+    facility_type: str | None = None
+    address: str | None = None
+    zip: str | None = None
+    risk: str | None = None
+    results: str | None = None
+    inspection_date: str | None = None
+    inspection_type: str | None = None
     violations: str | None = None
