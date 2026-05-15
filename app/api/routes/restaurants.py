@@ -2,63 +2,32 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
 from app.db.deps import get_db
-from app.mappers.restaurants import map_inspection_model, map_inspection_row
+from app.mappers.restaurants import map_inspection_model
 from app.schemas.restaurants import InspectionResult
-from app.services.restaurants.chicago_client import (
-    get_high_risk_restaurants,
-    search_inspections,
-)
-from app.services.restaurants.ingestion import ingest_restaurant_inspections
 from app.services.restaurants.queries import search_db_inspections
 
 router = APIRouter(prefix="/restaurants", tags=["Restaurants"])
 
 
-@router.get("/high-risk", response_model=list[InspectionResult])
-def high_risk_restaurants(limit: int = 25):
-    rows = get_high_risk_restaurants(limit=limit)
-    return [map_inspection_row(row) for row in rows]
-
-
-@router.get("/failures/recent", response_model=list[InspectionResult])
-def recent_failures(limit: int = 25):
-    rows = search_inspections(result="Fail", limit=limit)
-    return [map_inspection_row(row) for row in rows]
-
-
-@router.get("/search", response_model=list[InspectionResult])
-def search(
-    zip: str | None = None,
-    result: str | None = Query(
-        default=None, examples=["Fail", "Pass", "Pass w/ Conditions"]
-    ),
-    risk: str | None = None,
-    limit: int = 25,
-):
-    rows = search_inspections(zip=zip, result=result, risk=risk, limit=limit)
-    return [map_inspection_row(row) for row in rows]
-
-
 @router.get("/search_db", response_model=list[InspectionResult])
 def search_db(
     zip: str | None = None,
-    result: str | None = Query(
-        default=None, examples=["Fail", "Pass", "Pass w/ Conditions"]
-    ),
+    result: str | None = None,
     risk: str | None = None,
+    limit: int = Query(default=25, ge=1, le=100),
+    offset: int = Query(default=0, ge=0),
+    sort_by: str = Query(default="inspection_date"),
+    sort_order: str = Query(default="desc"),
     db: Session = Depends(get_db),
-    limit: int = 25,
 ):
     rows = search_db_inspections(
-        db=db, zip=zip, result=result, risk=risk, limit=limit
+        db=db,
+        zip=zip,
+        result=result,
+        risk=risk,
+        limit=limit,
+        offset=offset,
+        sort_by=sort_by,
+        sort_order=sort_order,
     )
     return [map_inspection_model(row) for row in rows]
-
-
-@router.post("/ingest", summary="Ingest restaurant inspection data")
-def ingest_inspections(
-    limit: int = Query(default=100, ge=1, le=1000),
-    db: Session = Depends(get_db),
-) -> dict[str, int]:
-    inserted = ingest_restaurant_inspections(db=db, limit=limit)
-    return {"rows_inserted": inserted}

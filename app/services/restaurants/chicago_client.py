@@ -47,3 +47,36 @@ def search_inspections(
     response.raise_for_status()
 
     return response.json()
+
+
+def load_inspections(
+    start_date: str | None = None,
+    end_date: str | None = None,
+    offset: int = 0,
+    limit: int = 100,
+) -> list[dict]:
+    params = {
+        "$limit": limit,
+        "$offset": offset,
+        "$order": "inspection_date DESC",
+    }
+
+    filters = []
+
+    if start_date:
+        filters.append(f"inspection_date >= '{start_date}'")
+
+    if end_date:
+        filters.append(f"inspection_date <= '{end_date}'")
+
+    if filters:
+        params["$where"] = " AND ".join(filters)
+
+    response = httpx.get(
+        FOOD_INSPECTIONS_URL,
+        params=params,
+        timeout=10.0,
+    )
+    response.raise_for_status()
+
+    return response.json()
