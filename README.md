@@ -2,36 +2,33 @@
 
 A modern FastAPI platform built on Chicago public datasets including CTA transit, restaurant inspections, and neighborhood analytics.
 
-## Tech Stack
-
 ## Requirements
 
 - Python 3.11+
 - uv
+- PostgreSQL
+- Node.js 20+ (includes npm)
 
-## Setup
+## Backend Setup
 
 ```bash
 uv sync --dev
-```
-
-## Run
-
-```bash
 uv run uvicorn app.main:app --reload
 ```
 
-Or run the project script:
+## Frontend Setup
 
 ```bash
-uv run chicago-smart-city-api
+cd frontend
+npm install
+npm run dev
 ```
 
 ## Test and lint
 
 ```bash
 uv run pytest
-uv run ruff check .
+pre-commit run --all-files
 ```
 
 ## Project layout
@@ -54,6 +51,7 @@ app/
       chicago_client/   Requests for the City of Chicago API
       ingestion/        Ingestion service to postgresql
       queries/          Queries for the postgres database
+frontend/               Frontend components using React with TypeScript
 tests/                  Automated tests
 ```
 
