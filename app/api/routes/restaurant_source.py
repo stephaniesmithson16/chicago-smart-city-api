@@ -26,12 +26,14 @@ def recent_failures(limit: int = 25):
 
 @router.get("/search", response_model=list[InspectionResult])
 def search(
-    zip: str | None = None,
+    zip_code: str | None = None,
     result: str | None = Query(
         default=None, examples=["Fail", "Pass", "Pass w/ Conditions"]
     ),
     risk: str | None = None,
     limit: int = 25,
 ):
-    rows = search_inspections(zip=zip, result=result, risk=risk, limit=limit)
+    rows = search_inspections(
+        zip_code=zip_code, result=result, risk=risk, limit=limit
+    )
     return [map_inspection_row(row) for row in rows]

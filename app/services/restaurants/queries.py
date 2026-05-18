@@ -14,7 +14,7 @@ ALLOWED_SORT_FIELDS = {
 
 def search_db_inspections(
     db: Session,
-    zip: str | None = None,
+    zip_code: str | None = None,
     result: str | None = None,
     risk: str | None = None,
     offset: int = 0,
@@ -24,8 +24,8 @@ def search_db_inspections(
 ) -> list[RestaurantInspection]:
     statement = select(RestaurantInspection)
 
-    if zip:
-        statement = statement.where(RestaurantInspection.zip_code == zip)
+    if zip_code:
+        statement = statement.where(RestaurantInspection.zip_code == zip_code)
 
     if result:
         statement = statement.where(RestaurantInspection.results == result)

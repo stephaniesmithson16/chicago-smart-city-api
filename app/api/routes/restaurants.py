@@ -9,9 +9,9 @@ from app.services.restaurants.queries import search_db_inspections
 router = APIRouter(prefix="/restaurants", tags=["Restaurants"])
 
 
-@router.get("/search_db", response_model=list[InspectionResult])
+@router.get("/inspections", response_model=list[InspectionResult])
 def search_db(
-    zip: str | None = None,
+    zip_code: str | None = None,
     result: str | None = None,
     risk: str | None = None,
     limit: int = Query(default=25, ge=1, le=100),
@@ -22,7 +22,7 @@ def search_db(
 ):
     rows = search_db_inspections(
         db=db,
-        zip=zip,
+        zip_code=zip_code,
         result=result,
         risk=risk,
         limit=limit,

@@ -19,15 +19,15 @@ def get_high_risk_restaurants(limit: int = 10) -> list[dict]:
 
 
 def search_inspections(
-    zip: str | None = None,
+    zip_code: str | None = None,
     result: str | None = None,
     risk: str | None = None,
     limit: int = 25,
 ) -> list[dict]:
     filters = []
 
-    if zip:
-        filters.append(f"zip = '{zip}'")
+    if zip_code:
+        filters.append(f"zip = '{zip_code}'")
 
     if result:
         filters.append(f"results = '{result}'")
