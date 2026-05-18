@@ -10,7 +10,7 @@ router = APIRouter(prefix="/admin/restaurants", tags=["Admin - Restaurants"])
 
 
 @router.post(
-    "/ingest_batch", summary="Ingest restaurant inspection data in batches"
+    "/ingest/backfill", summary="Ingest restaurant inspection data in batches"
 )
 def ingest_inspections_batch(
     start_date: str,
