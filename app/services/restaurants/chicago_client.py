@@ -75,7 +75,7 @@ def load_inspections(
     response = httpx.get(
         FOOD_INSPECTIONS_URL,
         params=params,
-        timeout=10.0,
+        timeout=15.0,
     )
     response.raise_for_status()
 

@@ -4,7 +4,7 @@ from fastapi.responses import RedirectResponse
 from app.api.routes import (
     cta,
     health,
-    restaurant_ingestion,
+    restaurant_admin,
     restaurant_source,
     restaurants,
 )
@@ -18,8 +18,8 @@ app = FastAPI(
 app.include_router(health.router, prefix=settings.app_prefix)
 app.include_router(cta.router, prefix=settings.app_prefix)
 app.include_router(restaurants.router, prefix=settings.app_prefix)
-app.include_router(restaurant_ingestion.router, prefix=settings.app_prefix)
 app.include_router(restaurant_source.router, prefix=settings.app_prefix)
+app.include_router(restaurant_admin.router, prefix=settings.app_prefix)
 
 
 @app.get("/")
