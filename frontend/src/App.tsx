@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 
+import "./App.css";
+
 const PAGE_SIZE = 25;
+
+function formatRisk(risk: string) {
+  return risk.match(/\(([^)]+)\)/)?.[1] ?? risk;
+}
 
 type Inspection = {
   inspection_id: number;
@@ -53,6 +59,7 @@ function App() {
       {loading ? (
         <p>Loading inspections...</p>
       ) : (
+        <div className="table-container">
         <table
           style={{
             borderCollapse: "separate",
@@ -61,10 +68,21 @@ function App() {
             marginTop: "2rem",
           }}
         >
+          <colgroup>
+            <col className="name-column" />
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <col className="date-column" />
+            <col className="violations-column" />
+          </colgroup>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Aka Name</th>
+              <th className="name-cell">Name</th>
               <th>License</th>
               <th>Facility Type</th>
               <th>Address</th>
@@ -72,27 +90,34 @@ function App() {
               <th>Risk</th>
               <th>Result</th>
               <th>Type</th>
-              <th>Date</th>
+              <th className="date-cell">Date</th>
+              <th>Violations</th>
             </tr>
+
           </thead>
 
           <tbody>
             {inspections.map((inspection) => (
               <tr key={inspection.inspection_id}>
-                <td>{inspection.name}</td>
-                <td>{inspection.aka_name}</td>
+                <td className="name-cell">{inspection.name}</td>
                 <td>{inspection.license}</td>
                 <td>{inspection.facility_type}</td>
                 <td>{inspection.address}</td>
                 <td>{inspection.zip_code}</td>
-                <td>{inspection.risk}</td>
+                <td>{formatRisk(inspection.risk)}</td>
                 <td>{inspection.results}</td>
                 <td>{inspection.inspection_type}</td>
-                <td>{inspection.inspection_date}</td>
+                <td className="date-cell">{inspection.inspection_date}</td>
+                <td className="violations-cell">
+                  <div className="violations-preview">
+                    {inspection.violations || "No violations"}
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+        </div>
       )}
       <div style={{ display: "flex",
         alignItems: "center",
