@@ -27,6 +27,7 @@ function App() {
   const [inspections, setInspections] = useState<Inspection[]>([]);
   const [loading, setLoading] = useState(true);
   const [offset, setOffset] = useState<number>(0);
+  const [zipInput, setZipInput] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [result, setResult] = useState("");
   const [risk, setRisk] = useState("");
@@ -67,29 +68,7 @@ function App() {
     >
       <h1>Chicago Restaurant Inspections</h1>
 
-      <input
-        value={zipCode}
-        onChange={(event) => setZipCode(event.target.value)}
-        placeholder="Zip code"
-      />
-
-      <select value={result} onChange={(event) => setResult(event.target.value)}>
-        <option value="">All results</option>
-        <option value="Pass">Pass</option>
-        <option value="Fail">Fail</option>
-        <option value="Pass w/ Conditions">Pass w/ Conditions</option>
-      </select>
-
-      <select value={risk} onChange={(event) => setRisk(event.target.value)}>
-        <option value="">All risks</option>
-        <option value="Risk 1 (High)">High</option>
-        <option value="Risk 2 (Medium)">Medium</option>
-        <option value="Risk 3 (Low)">Low</option>
-      </select>
-
-      {loading ? (
-        <p>Loading inspections...</p>
-      ) : (
+        {loading && <p>Loading inspections...</p>}
         <div className="table-container">
         <table
           style={{
@@ -116,9 +95,50 @@ function App() {
               <th className="name-cell">Name</th>
               <th>Facility</th>
               <th>Address</th>
-              <th>Zip</th>
-              <th>Risk</th>
-              <th>Result</th>
+              <th>
+                <label>
+                  <span>
+                    Zip
+                  </span>
+                  <input
+                    value={zipInput}
+                    onChange={(event) => setZipInput(event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter") {
+                        setZipCode(zipInput);
+                        setOffset(0);
+                      }
+                    }}
+                  />
+                </label>
+              </th>
+               <th>
+                <label>
+                  <span>
+                    Risk
+                  </span>
+                  <select value={risk} onChange={(event) => setRisk(event.target.value)}>
+                    <option value="">All risks</option>
+                    <option value="Risk 1 (High)">High</option>
+                    <option value="Risk 2 (Medium)">Medium</option>
+                    <option value="Risk 3 (Low)">Low</option>
+                  </select>
+                </label>
+               </th>
+              <th>
+                <label>
+                  <span>
+                    Result
+                  </span>
+                  <select value={result} onChangeCapture={(event) => setResult(event.target.value)}>
+                    <option value="">All results</option>
+                    <option value="Pass">Pass</option>
+                    <option value="Fail">Fail</option>
+                    <option value="Pass w/ Conditions">Pass w/ Conditions</option>
+                  </select>
+                </label>
+              </th>
+
               <th>Type</th>
               <th className="date-cell">Date</th>
               <th>Violations</th>
@@ -129,7 +149,7 @@ function App() {
           <tbody>
             {inspections.map((inspection) => (
               <tr key={inspection.inspection_id}>
-                <td className="name-cell">{inspection.name}</td>
+                <td className="name-cell">{inspection.name.toUpperCase()}</td>
                 <td>{inspection.facility_type}</td>
                 <td>{inspection.address}</td>
                 <td>{inspection.zip_code}</td>
@@ -147,7 +167,7 @@ function App() {
           </tbody>
         </table>
         </div>
-      )}
+
       <div style={{ display: "flex",
         alignItems: "center",
         justifyContent: "center",

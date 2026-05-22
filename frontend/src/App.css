@@ -29,12 +29,12 @@ td {
 }
 
 .name-column {
-  width: 40ch;
+  width: 35ch;
 }
 
 .name-cell {
-  min-width: 40ch;
-  max-width: 40ch;
+  min-width: 35ch;
+  max-width: 35ch;
 }
 
 .date-column {
